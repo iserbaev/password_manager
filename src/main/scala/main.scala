@@ -1,4 +1,3 @@
 @main
-def main(): Unit = {
+def main(): Unit =
   println("Hello world!")
-}
