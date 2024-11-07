@@ -5,10 +5,10 @@ import cats.syntax.all.*
 import cats.{ Eq, Show }
 import password.*
 
-final case class PasswordStatus(
+final case class PasswordStatusRow(
     id: PasswordId,
     name: Name,
-    password: RawPassword,
+    password: EncryptedPassword,
     comment: Comment,
     createdAt: Timestamp,
     deleted: Option[Timestamp]
