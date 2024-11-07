@@ -28,14 +28,34 @@ val commonSettings = List(
 )
 
 def dockerSettings(name: String) = List(
-  Docker / packageName := s"trading-$name",
+  Docker / packageName := s"password-$name",
   dockerBaseImage      := "jdk17-curl:latest",
   dockerExposedPorts ++= List(8080),
   makeBatScripts     := Nil,
   dockerUpdateLatest := true
 )
 
+lazy val domain = project
+  .in(file("modules/domain"))
+  .settings(commonSettings: _*)
+  .settings(name := "domain")
+
+lazy val core = project
+  .in(file("modules/core"))
+  .dependsOn(domain % "compile -> compile; test -> test")
+  .settings(commonSettings: _*)
+  .settings(name := "core")
+
+lazy val server = project
+  .in(file("modules/server"))
+  .enablePlugins(DockerPlugin)
+  .dependsOn(core)
+  .settings(commonSettings: _*)
+  .settings(dockerSettings("server"))
+  .settings(name := "server")
+
 lazy val root = (project in file("."))
+  .aggregate(domain, core, server)
   .settings(
     name := "password_manager"
   )
