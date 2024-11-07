@@ -22,6 +22,7 @@ object Dependencies {
     val iron          = "2.6.0"
     val kittens       = "3.3.0"
     val log4cats      = "2.7.0"
+    val monixNewtypes = "0.2.3"
     val monocle       = "3.2.0"
     val natchez       = "0.3.5"
     val natchezHttp4s = "0.5.0"
@@ -84,6 +85,12 @@ object Dependencies {
     val neutronCore       = "dev.profunktor" %% "neutron-core"       % V.neutron
     val redis4catsEffects = "dev.profunktor" %% "redis4cats-effects" % V.redis4cats
 
+    val monixNewtypes = Seq(
+      "io.monix" %% "newtypes-core"             % V.monixNewtypes,
+      "io.monix" %% "newtypes-circe-v0-14"      % V.monixNewtypes,
+      "io.monix" %% "newtypes-pureconfig-v0-17" % V.monixNewtypes
+    )
+    
     val monocleCore = Def.setting("dev.optics" %% "monocle-core" % V.monocle)
 
     val odin = "com.github.valskalla" %% "odin-core" % V.odin

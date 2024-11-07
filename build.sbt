@@ -1,4 +1,4 @@
-import Dependencies._
+import Dependencies.*
 
 ThisBuild / version := "0.1.0-SNAPSHOT"
 
@@ -24,7 +24,7 @@ val commonSettings = List(
     Libraries.weaverCats       % Test,
     Libraries.weaverDiscipline % Test,
     Libraries.weaverScalaCheck % Test
-  ) ++ Libraries.tapirCore ++ Libraries.tapirMetrics
+  ) ++ Libraries.tapirCore ++ Libraries.tapirMetrics ++ Libraries.monixNewtypes
 )
 
 def dockerSettings(name: String) = List(
@@ -37,21 +37,22 @@ def dockerSettings(name: String) = List(
 
 lazy val domain = project
   .in(file("modules/domain"))
-  .settings(commonSettings: _*)
+  .settings(commonSettings *)
   .settings(name := "domain")
 
 lazy val core = project
   .in(file("modules/core"))
   .dependsOn(domain % "compile -> compile; test -> test")
-  .settings(commonSettings: _*)
+  .settings(commonSettings *)
   .settings(name := "core")
 
 lazy val server = project
   .in(file("modules/server"))
   .enablePlugins(DockerPlugin)
   .dependsOn(core)
-  .settings(commonSettings: _*)
+  .settings(commonSettings *)
   .settings(dockerSettings("server"))
+  .settings(libraryDependencies ++= Libraries.tapirServer)
   .settings(name := "server")
 
 lazy val root = (project in file("."))
